@@ -11,6 +11,23 @@ Email=freelxs@gmail.com
 NOTERC="${XDG_CONFIG_HOME:-$HOME/.config}/notekeeper/noterc"
 if [ -f "$NOTERC" ]; then source "$NOTERC"; fi
 
+menu() {
+pushd "$HOME/notes" || exit
+printf "# My Wiki\n\n" >"$HOME"/notes/README.md
+for dir in $(ls -l |grep "^d" | awk '{print $9}');do 
+	echo -e "[$dir]($dir/index.md)\n" >> "$HOME"/notes/README.md
+	rm -rf "$dir"/index.md
+	cat <<EOF | tee "$dir"/index.md
+[Parent](../README.md)
+ 
+# $dir
+ 
+EOF
+	for x in $(ls -I index.md $dir);do echo -e "[${x%%.*}](/$x)\n" >> "$dir"/index.md; done
+done
+popd || exit
+}
+
 add_note() {
     NOTE_DIR="$HOME/notes/$category"
     if [ ! -f "$NOTE_DIR/$NOTE_NAME" ]; then
@@ -29,18 +46,10 @@ tags  :
 
 EOF
         printf "Created new note: $NOTE_DIR/$NOTE_NAME\n"
-	pushd "$HOME/notes" || exit
-	for x in $(ls -l |grep "^d" | awk '{print $9}');do echo \[$x\]\(\.$x\/index.md\);done > "$HOME"/notes/README.md
-        popd || exit
-	cat <<EOF | tee "$NOTE_DIR"/index.md
-[Parent](../README.md)
-#$category
-EOF
-	for x in $(ls -I index.md $NOTE_DIR);do echo \[${x%%.*}\]\(\.\/$x\);done >> "$NOTE_DIR"/index.md
-    else
-        printf "Note \"$NOTE_DIR/$NOTE_NAME\" already exists. Saving changes to existing file.\n"
-    fi
+	menu
+  fi
 }
+
 print_info() {
     if [ -z "$category" ]; then category=default; fi
     NOTE_DIR="$HOME/notes/$category"
@@ -71,6 +80,7 @@ Arguments:
 
   -i | --info                         Print information about a note.
   -t | --time                         Add a timestamp when opening a note.
+  -m | --menu                         Update README and $category/index.md
 
 The script loads configuration variables from \${XDG_CONFIG_HOME:-\$HOME/.config}/notekeeper/noterc.
 
@@ -151,6 +161,10 @@ if (($# > 0)); then
             printf "[$(date +%T)]\n" >> "$NOTE_DIR/$NOTE_NAME"
             shift
             open_note
+            ;;
+        -m | --menu)
+            menu
+            shift
             ;;
         *)
             printf "Unknown Argument \"$1\"\n"
