@@ -12,7 +12,7 @@ NOTERC="${XDG_CONFIG_HOME:-$HOME/.config}/notekeeper/noterc"
 if [ -f "$NOTERC" ]; then source "$NOTERC"; fi
 
 menu() {
-pushd "$HOME/notes" || exit
+pushd "$HOME/notes" &>/dev/null || exit
 printf "# My Wiki\n\n" >"$HOME"/notes/README.md
 for dir in $(ls -l |grep "^d" | awk '{print $9}');do 
 	echo -e "[$dir]($dir/index.md)\n" >> "$HOME"/notes/README.md
@@ -20,7 +20,7 @@ for dir in $(ls -l |grep "^d" | awk '{print $9}');do
         echo -e "[Parent](../README.md)\n\n# $dir\n" >"$dir"/index.md
 	for x in $(ls -I index.md $dir);do echo -e "[${x%%.*}](./$x)\n" >> "$dir"/index.md; done
 done
-popd || exit
+popd &>/dev/null || exit
 }
 
 add_note() {
@@ -29,13 +29,21 @@ add_note() {
         mkdir -p "$NOTE_DIR"
         touch "$NOTE_DIR/$NOTE_NAME"
         cat <<EOF | tee "$NOTE_DIR/$NOTE_NAME"
+
 [index](./index.md)
-#$(echo "${NOTE_NAME%%.*}" | awk -F "-" '{print $4}') 
+
+# $(echo "${NOTE_NAME%%.*}" | awk -F "-" '{print $4}') 
+
 ---
+
 Author:$Author 
+
 Email :$Email
+
 Date  :$(date +%F)
+
 tags  : 
+
 ---
 
 
