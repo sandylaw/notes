@@ -23,7 +23,7 @@ for dir in $(ls -l |grep "^d" | awk '{print $9}');do
 # $dir
  
 EOF
-	for x in $(ls -I index.md $dir);do echo -e "[${x%%.*}](/$x)\n" >> "$dir"/index.md; done
+	for x in $(ls -I index.md $dir);do echo -e "[${x%%.*}](./$x)\n" >> "$dir"/index.md; done
 done
 popd || exit
 }
