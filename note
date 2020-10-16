@@ -17,12 +17,7 @@ printf "# My Wiki\n\n" >"$HOME"/notes/README.md
 for dir in $(ls -l |grep "^d" | awk '{print $9}');do 
 	echo -e "[$dir]($dir/index.md)\n" >> "$HOME"/notes/README.md
 	rm -rf "$dir"/index.md
-	cat <<EOF | tee "$dir"/index.md
-[Parent](../README.md)
- 
-# $dir
- 
-EOF
+        echo -e "[Parent](../README.md)\n\n# $dir\n" >"$dir"/index.md
 	for x in $(ls -I index.md $dir);do echo -e "[${x%%.*}](./$x)\n" >> "$dir"/index.md; done
 done
 popd || exit
