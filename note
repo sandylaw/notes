@@ -32,6 +32,11 @@ menu() {
 	popd &>/dev/null || exit
 }
 
+gitpush(){
+    git add .
+    git commit -m "$(date +%F)"
+    git push
+}
 add_note() {
 	NOTE_DIR="$HOME/notes/$category"
 	if [ ! -f "$NOTE_DIR/$NOTE_NAME" ]; then
@@ -93,6 +98,7 @@ Arguments:
   -i | --info                         Print information about a note.
   -t | --time                         Add a timestamp when opening a note.
   -m | --menu                         Update README and $category/index.md
+  -g | --gitpush                      Push to github
 
 The script loads configuration variables from \${XDG_CONFIG_HOME:-\$HOME/.config}/notekeeper/noterc.
 
@@ -178,6 +184,10 @@ if (($# > 0)); then
 			menu
 			shift
 			;;
+        -g | --gitpush)
+            gitpush
+            shift
+            ;;
 		*)
 			printf "Unknown Argument %s \n" "$1"
 			printf "Try \"note --help\" to see usage information.\n"
