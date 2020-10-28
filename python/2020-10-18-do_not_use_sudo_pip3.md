@@ -24,6 +24,6 @@ tags  :
 sudo  rm -rf /usr/lib/python3.8 #太暴力！！！
 yay -S python3
 curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3
-yay -S python-dbus pyqt5 
-pip3 install msgpack pyqt5
+yay -S python-dbus pyqt5 libxml2
+pip3 install msgpack pyqt5 libvirt-python pycairo PyGobject vext vext.gi
 ```
