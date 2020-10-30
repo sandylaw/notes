@@ -12,3 +12,5 @@
 
 [2020-10-20-pi](./2020-10-20-pi.md)
 
+[2020-10-30-git_blank_branch](./2020-10-30-git_blank_branch.md)
+
