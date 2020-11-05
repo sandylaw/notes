@@ -16,5 +16,11 @@
 
 [2020-11-03-gpg](./2020-11-03-gpg.md)
 
+<<<<<<< HEAD
 [2020-11-05-crypt_disk](./2020-11-05-crypt_disk.md)
+=======
+[2020-11-04-git_submodule](./2020-11-04-git_submodule.md)
+
+[2020-11-06-ssh_socks](./2020-11-06-ssh_socks.md)
+>>>>>>> c3ccec9d735711c80ed13c409234c3e9d8d3eade
 
