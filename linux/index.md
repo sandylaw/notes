@@ -18,3 +18,5 @@
 
 [2020-11-04-git_submodule](./2020-11-04-git_submodule.md)
 
+[2020-11-06-ssh_socks](./2020-11-06-ssh_socks.md)
+
