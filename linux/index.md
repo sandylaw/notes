@@ -18,5 +18,9 @@
 
 [2020-11-04-git_submodule](./2020-11-04-git_submodule.md)
 
+[2020-11-06-linux_progress](./2020-11-06-linux_progress.md)
+
+[2020-11-06-ltp_sendto03](./2020-11-06-ltp_sendto03.md)
+
 [2020-11-06-ssh_socks](./2020-11-06-ssh_socks.md)
 
