@@ -28,3 +28,5 @@
 
 [2020-11-16-pandoc_markdown_to_pdf](./2020-11-16-pandoc_markdown_to_pdf.md)
 
+[2020-11-17-nnn_cli_file_manager](./2020-11-17-nnn_cli_file_manager.md)
+
