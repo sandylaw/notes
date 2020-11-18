@@ -17,6 +17,8 @@ tags  :linux
 
 [nnn github](https://github.com/jarun/nnn)
 
+`curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh`
+
 `vim $HOME/.bashrc`
 
 ```bash
