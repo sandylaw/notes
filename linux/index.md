@@ -30,3 +30,5 @@
 
 [2020-11-17-nnn_cli_file_manager](./2020-11-17-nnn_cli_file_manager.md)
 
+[2020-11-22-termtosvg](./2020-11-22-termtosvg.md)
+
