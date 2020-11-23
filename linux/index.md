@@ -32,3 +32,5 @@
 
 [2020-11-22-termtosvg](./2020-11-22-termtosvg.md)
 
+[2020-11-23-golang_init](./2020-11-23-golang_init.md)
+
