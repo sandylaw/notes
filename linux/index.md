@@ -36,3 +36,5 @@
 
 [2020-12-08-pullrequest](./2020-12-08-pullrequest.md)
 
+[2020-12-18-dde-lock](./2020-12-18-dde-lock.md)
+
