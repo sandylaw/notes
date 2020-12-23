@@ -50,13 +50,13 @@ add_note() {
 
 ---
 
-Author:$Author 
+Author:$Author
 
 Email :$Email
 
 Date  :$(date +%F)
 
-tags  : 
+tags  :
 
 ---
 
@@ -114,15 +114,15 @@ open_note() {
 	if [ -z "$category" ]; then category=default; fi
 	NOTE_DIR="$HOME/notes/$category"
 	if ! [ -f "$NOTE_DIR/$NOTE_NAME" ]; then printf "Note %s/%s doesn't exist.\n" "$NOTE_DIR" "$NOTE_NAME" && exit 1; fi
-	if [[ $EDITOR = *"vim"* ]] || [[ $EDITOR = *"nvim"* ]]; then
-		# Open Vim or Neovim in insert mode.
+	if [[ $EDITOR = *"vi"* ]] || [[ $EDITOR = *"nvi"* ]]; then
+		# Open vi or Neovi in insert mode.
 		$EDITOR "+normal G$" "$NOTE_DIR/$NOTE_NAME"
 	elif [[ $EDITOR = *"emacs"* ]]; then
 		# Open Emacs with cursor at EOF.
 		emacs -nw "$NOTE_DIR/$NOTE_NAME" --eval "(goto-char (point-max))"
 	elif [[ $EDITOR = "" ]]; then
-		# If no default editor, use Vim and open in insert mode.
-		vim "+normal G$" "$NOTE_DIR/$NOTE_NAME"
+		# If no default editor, use vi and open in insert mode.
+		vi "+normal G$" "$NOTE_DIR/$NOTE_NAME"
 	else
 		$EDITOR "$NOTE_DIR/$NOTE_NAME"
 	fi
