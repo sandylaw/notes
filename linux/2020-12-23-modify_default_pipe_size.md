@@ -20,5 +20,3 @@ tags  :linux
 修改：
 `sudo sysctl fs.pipe-max-size=102400000`
 
-Linux 内核2.6.11之后，需要通过fcnt来修改，且bash无法修改，以python为例：
-
