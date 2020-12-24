@@ -16,27 +16,28 @@ tags  : linux, apt
 
 ## 目录
 
-- Debian软件源结构
+- [Debian软件源结构](#1)
 
-- Deb包签名
+- [Deb包签名](#2)
 
-- Apache介绍
+- [Apache介绍](#3)
 
-- Vsftp介绍
+- [Vsftp介绍](#4)
 
-- Reprepro介绍
+- [Reprepro介绍](#5)
 
-- 专用设备软件仓库的搭建
+- [专用软件仓库的搭建](#6)
 
-- 自建APT仓库管理脚本
+- [自建APT仓库管理脚本](#7)
 
+- [文档信息](#8)
 
-## Debian软件源结构
+## <a id = "1">Debian软件源结构</a>
 
 对于典型的 HTTP 访问，软件源在 `/etc/apt/sources.list` 文件中指定。
 
 ```
-deb http://deb.debian.org/debian签名/ buster main contrib non-free
+deb http://deb.debian.org/debian/ buster main contrib non-free
 deb-src http://deb.debian.org/debian/ buster main contrib non-free
 ```
 
@@ -45,8 +46,6 @@ deb-src http://deb.debian.org/debian/ buster main contrib non-free
 ```
 deb https://professional-packages.chinauos.com/desktop-professional eagle main contrib non-free #此域名为官方主仓库，需要通过授权管理工具激活，方可使用
 ```
-
-> 详见[内网仓库说明](https://wikidev.uniontech.com/index.php?title=%E4%BB%93%E5%BA%93%E8%AF%B4%E6%98%8E)
 
 `/etc/apt/sources.list` 的含义在 `sources.list(5)` 中进行了描述，下面是一些要点[^1]。
 
@@ -74,7 +73,7 @@ deb https://professional-packages.chinauos.com/desktop-professional eagle main c
 >
 > 
 
-## Deb包签名
+## <a id = "2">Deb包签名</a>
 
 ### 什么是GPG[^2]
 
@@ -129,7 +128,7 @@ list-keys参数列出系统中已有的密钥．
 >     -------------------------------
 > ​       pub   rsa4096 2020-07-30 [SCEA]
 > ​                  9245BF9CB425D2D241C23542C28CB811A1B7D01C
-> ​       uid           [ 未知 ] devicepackages (devicepackages) <devicepackages@uniontech.com>
+> ​       uid           [ 未知 ] username (username) <username@v2less.com>
 > ​       sub   rsa4096 2020-07-30 [SEA]
 
 第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示"用户ID"，第四行显示私钥特征。
@@ -164,7 +163,7 @@ list-keys参数列出系统中已有的密钥．
 
 
 
-## Apach介绍
+## <a id = "3">Apach介绍</a>
 
 ### Apache简介
 
@@ -193,7 +192,7 @@ sudo apache2ctl configtest
 sudo systemctl daemon-reload
 sudo systemctl restart apache2.service
 ```
-## Vsftp介绍
+## <a id = "4">Vsftp介绍</a>
 
 ### Vsftp简介
 vsftpd (“Very Secure FTP Daemon“) 是一个为 UNIX 类系统开发的轻量，稳定和安全的 FTP 服务器端。 
@@ -210,7 +209,7 @@ anonymous_enable=YES
 no_anon_password=YES
 anon_root=/srv/ftp/
 ```
-## Reprepro介绍
+## <a id = "5">Reprepro介绍</a>
 
 reprepro[^6] 是用于管理 deb 格式软件包，生成用于分发的仓库管理工具。 支持 .dsc/.deb/.udeb 等格式；会根据配置生成 Packages/Sources 文件以及压缩版本， 并对 Release (根据配置还生成 Release.gpg) 。 
 
@@ -226,31 +225,31 @@ reprepro[^6] 是用于管理 deb 格式软件包，生成用于分发的仓库�
 
 详细文档参考man 5手册(请先通读一遍)。
 
-## 专用设备软件仓库的搭建
+## <a id = "6">专用软件仓库的搭建</a>
 
-### 专用设备软件源仓库规划
+### 专用软件源仓库规划
 
-- 专用设备版软件源仓库名称
+- 专用版软件源仓库名称
 
-依据产品线定义仓库名称：device
+依据产品线定义仓库名称：kiss
 
-- 专用设备版软件源仓库分支管理
+- 专用版软件源仓库分支管理
 
 同一个产品线不同的维护分支采用 codename 加上维护版本定义。
 
-GUI 产品：mars mars/sp1 mars/sp2
+GUI 产品：more more/sp1 more/sp2
 
-CLI 产品：venus venus/sp1 venus/sp2
+CLI 产品：less less/sp1 less/sp2
 
-- 专用设备版软件源仓库分类
+- 专用版软件源仓库分类
 
 - 内网unstable仓库
-  `deb http://10.8.0.113/unstable/device/ CODENAME main contrib non-free`
+  `deb http://192.168.122.66/unstable/kiss/ CODENAME main contrib non-free`
 
 - 内网stable主仓库
-  `deb deb http://10.8.0.113/stable/device/ CODENAME main contrib non-free`
+  `deb deb http://192.168.122.66/stable/kiss/ CODENAME main contrib non-free`
 - 外网发布仓库
-  `deb https://device-packages.chinauos.com/device/ CODENAME main contrib non-free`
+  `deb https://kiss-packages.chinauos.com/kiss/ CODENAME main contrib non-free`
 
 ### 安装依赖软件包
 
@@ -378,7 +377,7 @@ sudo systemctl restart apache2.service
 
 ```ini
 ├── stable
-│   └── device
+│   └── kiss
 │       ├── conf
 │       ├── db
 │       ├── dists
@@ -387,18 +386,18 @@ sudo systemctl restart apache2.service
 │       ├── morguedir
 │       └── pool
 └── unstable
-    ├── device
+    ├── kiss
     │   ├── conf
     │   ├── db
     │   ├── dists
     │   ├── logs
     │   ├── morguedir
     │   └── pool
-    └── devicepackages.key
+    └── username.key
 ```
 
 - - 分支：stable、unstable
-- - 产品：device
+- - 产品：kiss
 - - conf: 配置目录，主要包括distributions、updates
 - - logs:日志
 - - morguedir:deb删除后的备份
@@ -406,15 +405,15 @@ sudo systemctl restart apache2.service
 
 ```ini
 dists/
-├── mars            #GUI代号
-│   ├── 1010        #mars/1010
+├── more            #GUI代号
+│   ├── 1010        #more/1010
 │   ├── contrib     #属于自由软件但多半依赖非自由 ( non-free ) 软件
 │   ├── InRelease   #内联签名的Release
 │   ├── main        #最基本及主要且符合自由软件规范的软件 ( packages )
 │   ├── non-free    #不属于自由软件范畴的软件
 │   ├── Release     #档案库描述和完整性信息
 │   └── Release.gpg #"Release" 文件的签名文件，使用档案库密钥签名 
-└── venus           #CLI代号
+└── less           #CLI代号
     ├── contrib
     ├── InRelease
     ├── main
@@ -435,40 +434,40 @@ pool/
 - distributions配置
 
 ```
-Origin: UOS Device
-Label: Device
+Origin: UOS kiss
+Label: kiss
 Suite: stable
-Codename: mars
+Codename: more
 Version: 2020
 Update: 1000
 Architectures: i386 amd64 arm64 mips64el sw_64 source
 Components: main contrib non-free
 UDebComponents: main
 Contents: percomponent nocompatsymlink .bz2
-SignWith: devicepackages@uniontech.com
-Description: UOS Device Packages
+SignWith: username@v2less.com
+Description: UOS kiss Packages
 DebIndices: Packages Release . .gz /usr/bin/rredtool
-Log: uos_mars.log
+Log: uos_more.log
 
-Origin: UOS Device
-Label: Device
+Origin: UOS kiss
+Label: kiss
 Suite: stable
-Codename: mars/1010
+Codename: more/1010
 Version: 2020
-Update: mars/1010
+Update: more/1010
 Architectures: i386 amd64 arm64 mips64el sw_64 source
 Components: main contrib non-free
 UDebComponents: main
 Contents: percomponent nocompatsymlink .bz2
-SignWith: devicepackages@uniontech.com
-Description: UOS Device Packages
+SignWith: username@v2less.com
+Description: UOS kiss Packages
 DebIndices: Packages Release . .gz /usr/bin/rredtool
-Log: uos_mars-1010.log
+Log: uos_more-1010.log
 ```
 
 其中：
 
-- - DebIndices: 是借用了rredtool程序（来自于rrdtool软件包）生成更新deb的diff日志文件，比如位于`stable/device/dists/venus/main/binary-amd64/Packages.diff/`目录下。
+- - DebIndices: 是借用了rredtool程序（来自于rrdtool软件包）生成更新deb的diff日志文件，比如位于`stable/kiss/dists/less/main/binary-amd64/Packages.diff/`目录下。
 
 - - Update: 需要配合下面将要介绍的updates配置文件来完成从上游仓库指定配置来更新此仓库对应的codename。
 
@@ -482,14 +481,14 @@ Name: 1010
 Suite: eagle/sp3
 Architectures: i386 amd64 arm64 mips64el sw_64 source
 Components: main contrib non-free
-Method: file:///data/apt-mirror-desktop/mirror/pools.uniontech.com/desktop-professional/
+Method: file:///data/apt-mirror-desktop/mirror/pools.v2less.com/desktop-professional/
 VerifyRelease: blindtrust
 
-Name: mars
-Suite: mars
+Name: more
+Suite: more
 Architectures: i386 amd64 arm64 mips64el sw_64 source
 Components: main contrib non-free
-Method: http://127.0.0.1/unstable/device/
+Method: http://127.0.0.1/unstable/kiss/
 VerifyRelease: blindtrust
 ```
 
@@ -508,7 +507,7 @@ VerifyRelease: blindtrust
   ```
 
   - - COMP: 选择一个分类 main contrib non-free
-  - - REPODIR: 比如 `/data/repos/unstable/device/`
+  - - REPODIR: 比如 `/data/repos/unstable/kiss/`
   - - CODENAME:预要添加到仓库的codename
   - - GNUPAHOME： 指定GPG目录，对deb包签名后再添加到仓库
   - includedeb：添加deb包
@@ -571,30 +570,30 @@ set _tilde 0
 ############# end config ##############
 
 # mirror additional architectures
-deb-amd64 http://pools.uniontech.com/desktop-professional eagle/sp2 main contrib non-free
-deb-amd64 http://pools.uniontech.com/desktop-professional eagle/sp2 main/debian-installer 
-deb-arm64 http://pools.uniontech.com/desktop-professional eagle/sp2 main contrib non-free
-deb-arm64 http://pools.uniontech.com/desktop-professional eagle/sp2 main/debian-installer
-deb-i386 http://pools.uniontech.com/desktop-professional eagle/sp2 main contrib non-free
-deb-i386 http://pools.uniontech.com/desktop-professional eagle/sp2 main/debian-installer
-deb-mips64el http://pools.uniontech.com/desktop-professional eagle/sp2 main contrib non-free
-deb-mips64el http://pools.uniontech.com/desktop-professional eagle/sp2 main/debian-installer 
-deb-sw_64 http://pools.uniontech.com/desktop-professional eagle/sp2 main contrib non-free
-deb-sw_64 http://pools.uniontech.com/desktop-professional eagle/sp2 main/debian-installer 
-deb-src http://pools.uniontech.com/desktop-professional eagle/sp2 main contrib non-free
+deb-amd64 http://pools.v2less.com/desktop-professional eagle/sp2 main contrib non-free
+deb-amd64 http://pools.v2less.com/desktop-professional eagle/sp2 main/debian-installer 
+deb-arm64 http://pools.v2less.com/desktop-professional eagle/sp2 main contrib non-free
+deb-arm64 http://pools.v2less.com/desktop-professional eagle/sp2 main/debian-installer
+deb-i386 http://pools.v2less.com/desktop-professional eagle/sp2 main contrib non-free
+deb-i386 http://pools.v2less.com/desktop-professional eagle/sp2 main/debian-installer
+deb-mips64el http://pools.v2less.com/desktop-professional eagle/sp2 main contrib non-free
+deb-mips64el http://pools.v2less.com/desktop-professional eagle/sp2 main/debian-installer 
+deb-sw_64 http://pools.v2less.com/desktop-professional eagle/sp2 main contrib non-free
+deb-sw_64 http://pools.v2less.com/desktop-professional eagle/sp2 main/debian-installer 
+deb-src http://pools.v2less.com/desktop-professional eagle/sp2 main contrib non-free
 
-deb-amd64 http://pools.uniontech.com/desktop-professional eagle/sp3 main contrib non-free
-deb-amd64 http://pools.uniontech.com/desktop-professional eagle/sp3 main/debian-installer 
-deb-arm64 http://pools.uniontech.com/desktop-professional eagle/sp3 main contrib non-free
-deb-arm64 http://pools.uniontech.com/desktop-professional eagle/sp3 main/debian-installer
-deb-i386 http://pools.uniontech.com/desktop-professional eagle/sp3 main contrib non-free
-deb-i386 http://pools.uniontech.com/desktop-professional eagle/sp3 main/debian-installer
-deb-mips64el http://pools.uniontech.com/desktop-professional eagle/sp3 main contrib non-free
-deb-mips64el http://pools.uniontech.com/desktop-professional eagle/sp3 main/debian-installer 
-deb-sw_64 http://pools.uniontech.com/desktop-professional eagle/sp3 main contrib non-free
-deb-sw_64 http://pools.uniontech.com/desktop-professional eagle/sp3 main/debian-installer 
-deb-src http://pools.uniontech.com/desktop-professional eagle/sp3 main contrib non-free
-clean http://pools.uniontech.com/desktop-professional
+deb-amd64 http://pools.v2less.com/desktop-professional eagle/sp3 main contrib non-free
+deb-amd64 http://pools.v2less.com/desktop-professional eagle/sp3 main/debian-installer 
+deb-arm64 http://pools.v2less.com/desktop-professional eagle/sp3 main contrib non-free
+deb-arm64 http://pools.v2less.com/desktop-professional eagle/sp3 main/debian-installer
+deb-i386 http://pools.v2less.com/desktop-professional eagle/sp3 main contrib non-free
+deb-i386 http://pools.v2less.com/desktop-professional eagle/sp3 main/debian-installer
+deb-mips64el http://pools.v2less.com/desktop-professional eagle/sp3 main contrib non-free
+deb-mips64el http://pools.v2less.com/desktop-professional eagle/sp3 main/debian-installer 
+deb-sw_64 http://pools.v2less.com/desktop-professional eagle/sp3 main contrib non-free
+deb-sw_64 http://pools.v2less.com/desktop-professional eagle/sp3 main/debian-installer 
+deb-src http://pools.v2less.com/desktop-professional eagle/sp3 main contrib non-free
+clean http://pools.v2less.com/desktop-professional
 
 ```
 
@@ -607,14 +606,14 @@ clean http://pools.uniontech.com/desktop-professional
   > 修改distributions中的update字段为对应的上游仓库的配置名称,比如1000, 1010
 
   ```bash
-  pushd /var/www/repos/stable/device/ >/dev/null || exit
+  pushd /var/www/repos/stable/kiss/ >/dev/null || exit
        sudo GNUPGHOME=/home/"$TUSER"/.gnupg reprepro -V update "$CODENAME"
   popd >/dev/null || exit
   ```
 
 - 更新主仓库unstable分支到stable分支
 
-  > 修改distributions中的update字段为对应的unstable仓库的配置名称，比如venus, mars/1010
+  > 修改distributions中的update字段为对应的unstable仓库的配置名称，比如less, more/1010
 
   更新命令同上。
 
@@ -627,7 +626,7 @@ clean http://pools.uniontech.com/desktop-professional
 #!/usr/bin/bash
 exec 1>>rsync.log 2>&1
 date
-rsync -avzP --delete --password-file=/etc/rsync.pass --include "dists/" --include "pool/" --include "dists" --include "pool" --exclude "/*"  /data/repos/stable/device/ "chengdu@<ipaddr>::mirrors-ChengDu-device-repo"
+rsync -avzP --delete --password-file=/etc/rsync.pass --include "dists/" --include "pool/" --include "dists" --include "pool" --exclude "/*"  /data/repos/stable/kiss/ "chengdu@<ipaddr>::mirrors-ChengDu-kiss-repo"
 ```
 - 添加定时任务`/etc/crontab`：
 ```bash
@@ -640,18 +639,18 @@ rsync -avzP --delete --password-file=/etc/rsync.pass --include "dists/" --includ
 
 - 添加仓库地址到 `/etc/apt/sources.list`
 
-unstable仓库：`deb http://10.8.0.113/unstable/device/ CODENAME main contrib non-free`
+unstable仓库：`deb http://192.168.122.66/unstable/kiss/ CODENAME main contrib non-free`
 
-stable仓库：`deb http://10.8.0.113/stable/device/ CODENAME main contrib non-free`
+stable仓库：`deb http://192.168.122.66/stable/kiss/ CODENAME main contrib non-free`
 
 -   添加 软件源仓库公钥key
 
 ```bash
-wget -O - http://10.8.0.113/unstable/devicepackages.key | sudo apt-key add -
+wget -O - http://192.168.122.66/unstable/username.key | sudo apt-key add -
 sudo apt update  
 ```
 
-> 专用设备操作系统镜像已安装deepin-keyring，其已集成此key，无需再次添加。
+> 专用操作系统镜像已安装deepin-keyring，其已集成此key，无需再次添加。
 
 
 -  修改仓库优先级
@@ -662,34 +661,34 @@ sudo apt update
 
 ```bash
 Package: *
-Pin: origin 10.8.0.113
+Pin: origin 192.168.122.66
 Pin-Priority: 900
 ```
 >数字越大，优先级越高，如果为-1,则禁用。
 
 
-## 自建APT仓库管理脚本
+## <a id = "7">自建APT仓库管理脚本</a>
 
-为了方便仓库的搭建与管理，编写成了脚本，代码地址：[Gitlab](https://gitlabcd.uniontech.com/deviceos/sysdev-docs/-/tree/master/reprepro)
+为了方便仓库的搭建与管理，编写成了脚本，代码地址：[github](https://github.com/sandylaw/reprepro)
 
 ### Setup_Reprepro.sh
 
-目标：在`/var/www/repos/apt`目录下自建指定创建多个 dist,例如`stable、unstable`，可以指定创建多个`repos`,例如`device`；可以指定多个 codename，例如`mars mars/1010  venus venus/1010`。
+目标：在`/var/www/repos/apt`目录下自建指定创建多个 dist,例如`stable、unstable`，可以指定创建多个`repos`,例如`kiss`；可以指定多个 codename，例如`more more/1010  less less/1010`。
 
 用法：普通用户执行命令 `bash Setup_Reprepro.sh`
 
 其中已设定：
 
 ```bash
-GPGNAME=devicepackages
-GPGEMAIL=devicepackages@uniontech.com
+GPGNAME=username
+GPGEMAIL=username@v2less.com
 ```
 
 根据提示以此输入：
 
 - dist:stable unstable and so on
-- repos:device and so on
-- codename: mars mars/1010 venus venus/1010 and so on
+- repos:kiss and so on
+- codename: more more/1010 less less/1010 and so on
 
 项目目录的.gnupg 会复制到主目录，如果项目目录没有会创建新的 gpg key。
 
@@ -707,14 +706,13 @@ GPGEMAIL=devicepackages@uniontech.com
 
 ```bash
 dist: stable unstable
-repo: device and so on
-codename: mars mars/1010 venus venus/1010 and so on
+repo: kiss and so on
+codename: more more/1010 less less/1010 and so on
 crp_rep_url:crp_rep_url or local dir path
 ```
 
 需要说明的是，输入或粘贴`crp_rep_url`后要跟上`/`以明确表示是目录，也可以跟本地目录。
-**注意此地址要和 repos 保持一致，不要将 device-cli 的 crp 仓库地址加到 device-gui 仓库，反之亦然。**
-**专用设备 codename 有变化，device-gui 版本对应的 codename 为 mars，device-cli 版本对应的 codename 为 venus，故仓库 repos 统一为 device，只在 codename 中区分**
+**注意此地址要和 repos 保持一致，不要将 kiss-cli 的 crp 仓库地址加到 kiss-gui 仓库，反之亦然。**
 
 从更新 gitlab 不同分支，到 crp 对应不同仓库构建软件包，到添加到 apt 仓库，需要人工分辨对应的是什么分支、什么版本、什么仓库，此部分操作需谨慎进行。
 
@@ -728,8 +726,8 @@ crp_rep_url:crp_rep_url or local dir path
 
 ```bash
 dist: stable unstable
-repo: device and so on
-codename: mars mars/1010 venus venus/1010 and so on
+repo: kiss and so on
+codename: more more/1010 less less/1010 and so on
 action: list remove
 #list后不跟packagename
 #remove支持一次性删除多个软件包,以空格间隔
@@ -745,8 +743,8 @@ action: list remove
 
 ```bash
 dist: unstable
-repo: device and so on
-codename: mars mars/1010 venus venus/1010 and so on
+repo: kiss and so on
+codename: more more/1010 less less/1010 and so on
 # codename中的“/”请转为"-"
 comps：main contrib non-free
 ```
@@ -756,22 +754,22 @@ comps：main contrib non-free
 目标：将 list/dist_repo_codename_comps.list 中定义的软件包添加到对应的仓库
 用法：普通用户执行命令 `bash updatepackages.sh [copy] [all]`
 
-- 可选项：copy会执行软件包的copy操作，比如unstable_device_mars_main_copy_venus.list清单
-- 可选项：copy all会遍历执行软件包的copy操作，比如unstable_device_mars_main_copy_all.list清单。
+- 可选项：copy会执行软件包的copy操作，比如unstable_kiss_more_main_copy_less.list清单
+- 可选项：copy all会遍历执行软件包的copy操作，比如unstable_kiss_more_main_copy_all.list清单。
 **默认已设置定时任务，配置在/etc/crontab 已定义，3 个小时检查一次更新。**
 **检测对比文件及日志在~/.cache/apt-repos/目录，如需强制更新，可删除此目录。**
 
 ### sync_base_and_unstable_to_stable.sh
 
 目标：同步上游仓库。主要用途为主仓库，也就是 stable 仓库更新 base 仓库以及推送测试无误的 unstable 仓库到 stable 仓库。
-用法：普通用户执行命令 `bash syncupstream.sh codename syncbase|syncdevice|syncall|checkbase|checkdevice|checkall [force]`
+用法：普通用户执行命令 `bash syncupstream.sh codename syncbase|synckiss|syncall|checkbase|checkkiss|checkall [force]`
 
 其中已设定：
 
 ```bash
-codename: mars mars/1010 venus venus/1010 and so on
-checkbase|checkdevice|checkall:检查更新base仓库、检查unstable仓库、检查全部
-syncbase|syncdevice|syncall：更新base仓库、更新unstable仓库、更新全部
+codename: more more/1010 less less/1010 and so on
+checkbase|checkkiss|checkall:检查更新base仓库、检查unstable仓库、检查全部
+syncbase|synckiss|syncall：更新base仓库、更新unstable仓库、更新全部
 force：可选参数，强制更新
 ```
 
@@ -784,7 +782,7 @@ force：可选参数，强制更新
 ```
 非Amd架构，将download包后同步到服务器，同步后请到服务器添加包到仓库。
 
-cache_packages_from_main_repos.sh 代码本身已设定为添加包时用copy方式，同时添加到mars和venus仓库。
+cache_packages_from_main_repos.sh 代码本身已设定为添加包时用copy方式，同时添加到more和less仓库。
 
 list/fou-sp2/ list/eagle-sp2两个文件夹下有相应的抓包源和软件包列表。
 
@@ -814,7 +812,7 @@ list/fou-sp2/ list/eagle-sp2两个文件夹下有相应的抓包源和软件包�
 1. [SetupWithReprepro](https://wiki.debian.org/DebianRepository/SetupWithReprepro)
 2. [Creat your own apt repo](http://blog.jonliv.es/blog/2011/04/26/creating-your-own-signed-apt-repository-and-debian-packages/)
 
-## 文档信息
+## <a id = "8">文档信息</a>
 
 - 版权声明：自由转载-非商用-非衍生-保持署名（[创意共享3.0许可证](http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh)）
 - 发表日期：2020-12-24
