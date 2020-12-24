@@ -40,3 +40,5 @@
 
 [2020-12-23-modify_default_pipe_size](./2020-12-23-modify_default_pipe_size.md)
 
+[2020-12-24-setup_apt_repo](./2020-12-24-setup_apt_repo.md)
+
