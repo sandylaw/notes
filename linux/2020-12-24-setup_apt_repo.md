@@ -498,6 +498,31 @@ VerifyRelease: blindtrust
 - - Suite: 是上游仓库的codename
 - - Name: 是本仓库要更新的配置名称，与distributions配置文件中的update:字段名称一致。
 
+### 日志轮转
+
+> logrotate[(GitHub 地址)](https://github.com/logrotate/logrotate) 诞生于 1996/11/19 是一个 Linux 系统日志的切割管理工具[^7]。
+
+- 安装 `sudo apt install logrotate`
+
+- 配置每月轮转一次，保留12份日志：
+
+  ```bash
+  cat /etc/logrotate.d/stable_device_mars
+  /var/www/repos/stable/device/logs/uos_mars.log {
+  rotate 12
+  monthly
+  compress
+  missingok
+  notifempty
+  }
+  ```
+
+>  - monthly: 日志文件将按月轮循。其它可用值为 daily，weekly 或者 yearly。
+>  - rotate 12: 一次将存储 12 个归档日志。对于第13个归档，时间最久的归档将被删除
+>  - compress: 在轮循任务完成后，已轮循的归档将使用 gzip 进行压缩。
+>  - missingok: 在日志轮循期间，任何错误将被忽略，例如 “文件无法找到” 之类的错误。
+>  - notifempty: 如果日志文件为空，轮循不会进行。
+
 ### 管理APT仓库
 
 - 添加软件到仓库
@@ -806,6 +831,7 @@ list/fou-sp2/ list/eagle-sp2两个文件夹下有相应的抓包源和软件包�
 [^4]: https://www.yiibai.com/apache_http "Apache教程"
 [^5]: https://wiki.archlinux.org/index.php/Very_Secure_FTP_Daemon_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87) "VSFTP"
 [^6]: https://salsa.debian.org/brlink/reprepro "Reprepro"
+[^7]: https://wsgzao.github.io/post/logrotate/ "logrotate"
 
 ### 参考：
 
