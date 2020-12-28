@@ -42,3 +42,5 @@
 
 [2020-12-24-setup_apt_repo](./2020-12-24-setup_apt_repo.md)
 
+[2020-12-28-debian-live-config](./2020-12-28-debian-live-config.md)
+
