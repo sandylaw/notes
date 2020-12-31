@@ -19,10 +19,10 @@ void print_result(FILE *fp)
             line.pop_back();
         if (line == "/.")
             continue;
-        struct stat sb;
-        if (lstat(line.c_str(), &sb) == 0)
+        struct stat sa;
+        if (lstat(line.c_str(), &sa) == 0)
         {
-            if ((sb.st_mode & S_IFMT) == S_IFLNK)
+            if ((sa.st_mode & S_IFMT) == S_IFLNK)
             {
                 if (access(line.c_str(), F_OK) == -1)
                 {
@@ -31,7 +31,7 @@ void print_result(FILE *fp)
             }
             if (line.find("/usr/") != string::npos)
             {
-                if (sb.st_uid != 0)
+                if (sa.st_uid != 0)
                     cout << "The master of file is not root" << line << endl;
             }
         }

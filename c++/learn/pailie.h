@@ -1,7 +1,7 @@
 class Solution
 {
 public:
-    vector<string> res;
+    set<string> res;
     void swap(char &a, char &b)
     {
         char temp = a;
@@ -12,7 +12,7 @@ public:
     {
         if (begin >= s.size())
         {
-            res.push_back(s);
+            res.insert(s);
             return;
         }
         for (int i = begin; i < s.size(); i++)
@@ -22,10 +22,10 @@ public:
             swap(s[begin], s[i]);
         }
     }
-    vector<string> permutation(string s)
+    set<string> permutation(string S)
     {
         res.clear();
-        search(0, s);
+        search(0, S);
         return res;
     }
 };

@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/pailie.dir/home/sandy/notes/c++/learn/pailie.cc.o  -o pailie 

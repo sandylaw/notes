@@ -1,0 +1,4 @@
+/home/sandy/notes/c++/learn/src/CMakeFiles/rebuild_cache.dir
+/home/sandy/notes/c++/learn/src/CMakeFiles/edit_cache.dir
+/home/sandy/notes/c++/learn/src/CMakeFiles/pailie.dir
+/home/sandy/notes/c++/learn/src/CMakeFiles/pkgverify.dir

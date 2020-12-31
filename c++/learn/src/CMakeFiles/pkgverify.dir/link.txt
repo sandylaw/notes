@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/pkgverify.dir/home/sandy/notes/c++/learn/pkgverify.cc.o  -o pkgverify 
