@@ -46,3 +46,5 @@
 
 [2021-01-06-bench](./2021-01-06-bench.md)
 
+[2021-01-07-usb_serial_debug](./2021-01-07-usb_serial_debug.md)
+
