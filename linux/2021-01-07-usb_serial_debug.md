@@ -38,8 +38,8 @@ GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no
 GRUB_TERMINAL="serial console" 
 GRUB_CMDLINE_LINUX add "console=ttyS0,115200" and remove `quiet` from CMDLINE
 ```
-
-## Debug 
+> Remove plymouth.ignore-serial-consoles
+## Debug
 
 ```bash
 sudo minicom -c on
