@@ -64,6 +64,9 @@ systemd-analyze blame
     增大之会使用更多系统内存用于磁盘写缓冲,也可以极大提高系统的写性能.
     但是,当你需要持续、恒定的写入场合时,应该降低其数值.
     设置 dirty pages 开始后台回写时的百分比
+
+    较低的ratio适合交互式系统；较高的ratio适合少而大的写。
+
     设备系统默认10
 
 - dirty_writeback_centisecs
@@ -85,7 +88,7 @@ systemd-analyze blame
     当swap默认值piness为0的时候表示最大限度使用物理内存，然后才是swap分区，
     当swappines为100的时候，则表示积极的使用swap分区，并且把内存上的
     数据及时的搬运到swap空间里面。
-    设备系统默认60,优化性能则降低此值，内存够大，直接设置为0。
+    设备系统默认60,优化性能则降低此值，内存够大或者需要更多响应的系统或者ssd硬盘，可以直接设置为0。
 
 - nr_requests
 
@@ -166,28 +169,37 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 ACTION=="add|change", KERNEL=="nvme*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="blk-mq"
 ```
 
-### 性能优化实测
+### 性能参数对比
 
-| 性能参数                               | CLI默认值   | centos                | Server1021  | 方案A | 方案B |
-| -------------------------------------- | ----------- | --------------------- | ----------- | ----- | ----- |
-| /proc/sys/vm/dirty_ratio               | 20          | *30*                  | 20          |       |       |
-| /proc/sys/vm/dirty_background_ratio    | 10          | 10                    | 10          |       |       |
-| /proc/sys/vm/dirty_writeback_centisecs | 500         | 500                   | 500         |       |       |
-| /proc/sys/vm/swappiness                | 60          | *30*                  | 60          |       |       |
-| /proc/sys/vm/dirty_expire_centisecs    | 3000        | 3000                  | 3000        |       |       |
-| /sys/block/sda/queue/nr_requests       | 64          | *2*                   | *256*/64    |       |       |
-| /sys/block/sdb/queue/read_ahead_kb     | 128         | *4096*                | 128         |       |       |
-| /sys/block/sda/queue/scheduler         | mq-deadline | mq-deadline kyber bfq | mq-deadline |       |       |
+| 性能参数                               | CLI-Device  | centos8.2             | Server1021  |
+| -------------------------------------- | ----------- | --------------------- | ----------- |
+| /proc/sys/vm/dirty_ratio               | 20          | *30*                  | 20          |
+| /proc/sys/vm/dirty_background_ratio    | 10          | 10                    | 10          |
+| /proc/sys/vm/dirty_writeback_centisecs | 500         | 500                   | 500         |
+| /proc/sys/vm/swappiness                | 60          | *30*                  | 60          |
+| /proc/sys/vm/dirty_expire_centisecs    | 3000        | 3000                  | 3000        |
+| /sys/block/sda/queue/nr_requests       | 64          | *2*                   | 64          |
+| /sys/block/sdb/queue/read_ahead_kb     | 128         | *4096*                | 128         |
+| /sys/block/sda/queue/scheduler         | mq-deadline | mq-deadline kyber bfq | mq-deadline |
 
+### 文件系统差异
 
+经研究发现，Deepin-installer对Server的分区方案做了单独处理，其中根分区和Data分区采用了xfs文件系统类型，其相对与ext4有了一些性能提升。当对CLI采用了Server的分区方案后，性能有所提示，与Server的性能测试数据差异缩小到3%左右。
 
-| unixbench指标 | CLI默认方案 | Server1021 | 方案A | 方案B |
-| ------------- | ----------- | ---------- | ----- | ----- |
-|               |             |            |       |       |
-|               |             |            |       |       |
-|               |             |            |       |       |
-|               |             |            |       |       |
-|               |             |            |       |       |
-|               |             |            |       |       |
-|               |             |            |       |       |
+#### xfs
+
+和ext4相比，xfs不支持下面这些功能
+
+- 不支持日志（Journal）校验码
+- 不支持无日志（No Journaling）模式
+- 不支持文件创建时间
+- 不支持数据日志（data journal），只有元数据日志（metadata journal）
+
+但xfs有下面这些特性
+
+- 支持的最大文件和分区都达到了8EB
+- inode动态分配，从而不受inode数量的限制，再也不用担心存储大量小文件导致inode不够用的问题了。
+- [更大的xattr(extended attributes)](https://en.wikipedia.org/wiki/XFS#Extended_attributes)空间，ext2/3/4及btrfs都限制xattr的长度不能超过一个块（一般是4K），而xfs可以达到64K
+- 内部采用Allocation groups机制，各个group之间没有依赖，支持并发操作，在多核环境的某些场景下性能表现不错
+- 提供了原生的dump和restore工具，并且支持在线dump
 
