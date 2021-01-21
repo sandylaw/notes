@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sandy/notes/c++/learn/pkgverify.cc
+iostream
+-
+string
+-
+unistd.h
+-
+sys/stat.h
+-
+

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sandy/notes/c++/learn/pailie.cc
+iostream
+-
+string
+-
+set
+-
+pailie.h
+/home/sandy/notes/c++/learn/pailie.h
+
+/home/sandy/notes/c++/learn/pailie.h
+
