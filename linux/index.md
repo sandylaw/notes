@@ -48,3 +48,11 @@
 
 [2021-01-07-usb_serial_debug](./2021-01-07-usb_serial_debug.md)
 
+[2021-05-07-sddm-debian](./2021-05-07-sddm-debian.md)
+
+[2021-05-17-ubuntu-core](./2021-05-17-ubuntu-core.md)
+
+[CLIPOS](./CLIPOS.md)
+
+[unixbench_result.ods](./unixbench_result.ods)
+
