@@ -52,7 +52,11 @@
 
 [2021-05-17-ubuntu-core](./2021-05-17-ubuntu-core.md)
 
+[2021-05-19-static_ip](./2021-05-19-static_ip.md)
+
 [CLIPOS](./CLIPOS.md)
+
+[ubuntu core 与 uos device构建方式的差异](./ubuntu core 与 uos device构建方式的差异.md)
 
 [unixbench_result.ods](./unixbench_result.ods)
 
