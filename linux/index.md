@@ -54,6 +54,12 @@
 
 [2021-05-19-static_ip](./2021-05-19-static_ip.md)
 
+[2021-05-20-Display_Manager](./2021-05-20-Display_Manager.md)
+
+[2021-06-01-How_to_install_grub_to_imag_disk_file](./2021-06-01-How_to_install_grub_to_imag_disk_file.md)
+
+[2021-06-01-How_to_run_script_after_deb_install](./2021-06-01-How_to_run_script_after_deb_install.md)
+
 [CLIPOS](./CLIPOS.md)
 
 [ubuntu core 与 uos device构建方式的差异](./ubuntu core 与 uos device构建方式的差异.md)
