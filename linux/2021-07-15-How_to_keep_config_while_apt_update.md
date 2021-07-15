@@ -29,3 +29,20 @@ Dpkg::Options {
 }
 ```
 
+List available updates:
+
+```bash
+apt-get -V -s dist-upgrade \
+    |grep -E "^   .*=>.*" \
+    |awk 'BEGIN {
+        ul=sprintf("%*s",40,""); gsub(/ /,"-",ul);
+        printf "%-30s %-30s %-30s\n", "Package", "Installed", "Available";
+        printf "%-30.30s %-30.30s %-30.30s\n", ul, ul, ul;
+     }
+     {
+        printf "%-30s %-30s %-30s\n",
+               $1,
+               substr($2,2),
+               substr($4,1,length($4)-1)
+     }'
+```
