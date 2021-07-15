@@ -60,7 +60,11 @@
 
 [2021-06-01-How_to_run_script_after_deb_install](./2021-06-01-How_to_run_script_after_deb_install.md)
 
+[2021-07-15-How_to_keep_config_while_apt_update](./2021-07-15-How_to_keep_config_while_apt_update.md)
+
 [CLIPOS](./CLIPOS.md)
+
+[Proxmox6.2手册.pdf](./Proxmox6.2手册.pdf)
 
 [ubuntu core 与 uos device构建方式的差异](./ubuntu core 与 uos device构建方式的差异.md)
 
