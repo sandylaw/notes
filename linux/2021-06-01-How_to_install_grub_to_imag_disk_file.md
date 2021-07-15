@@ -127,21 +127,55 @@ chroot system
 # vi /etc/apt/sources.list
 # # 使用内网仓库
 apt update
+apt install 以下软件包
+overlay_packages_x86_64:
+  - grub2-common
+  - grub-efi-amd64
+  - mokutil
+  - shim
+  - shim-signed
+  - shim-unsigned
 update-grub
+os-prober 应该先干掉,否则会生成主机的菜单
 
 
 ```
 
 ```bash
+
+mkdir /boot/efi/EFI/boot
+
+grub-mkimage \
+  -d /usr/lib/grub/x86_64-efi \
+  -o /boot/efi/EFI/boot/bootx64.efi \
+  -p /boot/efi/EFI/boot/ \
+  -O x86_64-efi \
+    fat iso9660 part_gpt part_msdos normal boot linux configfile loopback chain efifwsetup efi_gop \
+    efi_uga ls search search_label search_fs_uuid search_fs_file gfxterm gfxterm_background \
+    gfxterm_menu test all_video loadenv exfat ext2 ntfs btrfs hfsplus udf
+    
+cat <<EOF|tee /boot/efi/EFI/boot/grub.cfg
+search --label boot --set prefix
+configfile (\$prefix)/boot/grub/grub.cfg
+EOF  
+    
 # joe /etc/fstab
+
+/dev/sda1 /boot/efi vfat        rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharse
+t=ascii,shortname=mixed,utf8,errors=remount-ro   0 2
+/dev/sda2 /boot             ext4        rw,relatime 0 2
+/dev/sda3  /         ext4        rw,relatime 0 1
 # joe /etc/network/interfaces
 # exit
-# umount linode/proc linode/sys linode/dev linode
-# kpartx -d -v new.img
-del devmap : loop1p1
-loop deleted : /dev/loop1
-# rmdir linode
-# mv new.img /var/lib/vz/images/104/vm-104-disk-1.raw
+# postchroot system
+# umount system/boot/efi system/boot system
+# kpartx -d -v sys.img
+del devmap : loop4p3
+del devmap : loop4p2
+del devmap : loop4p1
+loop deleted : /dev/loop4
+# rmdir system
+# cp sys.img /var/lib/libvirt/images/vm-img-sys.img
 ```
 
 
