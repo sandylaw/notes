@@ -64,6 +64,8 @@
 
 [2021-07-16-How_to_use_svn_command](./2021-07-16-How_to_use_svn_command.md)
 
+[2021-07-16-Turn_md_to_pdf_with_pandoc](./2021-07-16-Turn_md_to_pdf_with_pandoc.md)
+
 [CLIPOS](./CLIPOS.md)
 
 [Proxmox6.2手册.pdf](./Proxmox6.2手册.pdf)
