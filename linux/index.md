@@ -62,6 +62,8 @@
 
 [2021-07-15-How_to_keep_config_while_apt_update](./2021-07-15-How_to_keep_config_while_apt_update.md)
 
+[2021-07-16-How_to_use_svn_command](./2021-07-16-How_to_use_svn_command.md)
+
 [CLIPOS](./CLIPOS.md)
 
 [Proxmox6.2手册.pdf](./Proxmox6.2手册.pdf)
